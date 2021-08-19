@@ -22,12 +22,14 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    position: relative;
 }
 
 .pokemon-img
 {
     box-sizing: content-box;
     height: 100%;
+    position: absolute;
 }
 
 .bar-container

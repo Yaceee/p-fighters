@@ -66,6 +66,19 @@ class Pokemon extends React.Component {
         }
     }
 
+    healthBarColor (hp) {
+        if(hp/max_hp > 0.5) {
+            return "#2afc00"
+        }
+        else if (hp/max_hp > 0.2){
+            return "#fc9300"
+        }
+
+        else{
+            return "#f00000"
+        }
+    }
+
     render() {
         return (
             <div class="pokemon-container">
@@ -80,7 +93,7 @@ class Pokemon extends React.Component {
                         <h2 class="name">{this.state.names[this.state.f_id][this.state.evo]}</h2>
                         <div class="health-bar-container">
                             <div class="health-bar-empty">
-                                <div class="health-bar" style={{width : (this.state.hp*400/100)}}></div>
+                                <div class="health-bar" style={{width : (this.state.hp*400/100), backgroundColor : (this.healthBarColor(this.state.hp))}}></div>
                             </div>
                         </div>
                         <div class="exp-bar-container">
