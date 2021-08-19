@@ -21,6 +21,7 @@ class App extends React.Component {
     }
 
     componentDidMount(){
+        //link appuie touche, détection front montant
         let onKeyDown = (event) => {
             this.key_press(event);
             document.removeEventListener('keypress', onKeyDown, false);
@@ -38,13 +39,22 @@ class App extends React.Component {
     }
 
     key_press(event) {
-
-        if (this.state.key_cache === "")
+        if(event.key !== "x")
         {
-            this.setState({key_cache : event.key});
+            if (this.state.key_cache === "")
+            {
+                this.setState({key_cache : event.key});
+            }
+            else {
+                if(event.key !== this.state.key_cache)
+                {
+                    this.attack(this.state.key_cache, event.key);
+                    this.setState({key_cache : ""})
+                }
+            }
         }
-        else {
-            this.attack(this.state.key_cache, event.key);
+        else
+        {
             this.setState({key_cache : ""})
         }
         
@@ -52,9 +62,36 @@ class App extends React.Component {
 
     attack(p1,p2){
         const filiere_key = ["m", "e", "i", "t", "r", "s"];
+        const i1 = filiere_key.indexOf(p1);
+        const i2 = filiere_key.indexOf(p2)
 
-        this.exp_up(filiere_key.indexOf(p1), 10);
-        this.hp_down(filiere_key.indexOf(p2), 1);
+        this.exp_up(i1, 10);
+        this.hp_down(i2, 1);
+        this.attackAnimate(i1, i2);
+    }
+
+    attackAnimate(i1, i2) { 
+        const pokemons = this.state.pokemons.slice();
+        pokemons[i1].state.animationImg = "";
+        pokemons[i1].state.keyframes = "";
+        this.setState({pokemons : pokemons})
+
+        let p1_y = document.getElementById('img-'+i1).offsetTop;
+        let p1_x = document.getElementById('img-'+i1).offsetLeft;
+        let p2_y = document.getElementById('img-'+i2).offsetTop;
+        let p2_x = document.getElementById('img-'+i2).offsetLeft;
+        console.log(i1, i2);
+
+        let keyframes =
+        `@-webkit-keyframes attack-${i1} {
+            0% {-webkit-transform:translate(0px, 0px); z-index : 1;} 
+            50% {-webkit-transform:translate(${p2_x - p1_x}px, ${p2_y - p1_y}px); z-index : 1;}
+            100% {-webkit-transform:translate(0px, 0px); z-index : 0;}
+        }`;
+
+        pokemons[i1].state.animationImg = " 0.5s linear attack-" + i1
+        pokemons[i1].state.keyframes = keyframes;
+        this.setState({pokemons : pokemons})
     }
 
     hp_up = (i, n) => {

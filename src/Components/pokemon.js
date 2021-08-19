@@ -51,6 +51,8 @@ let n_telecom = ["Pichu","Pikachu","Raichu"];
 let n_rsi = ["Fantominus", "Spectrum", "Ectoplasma"];
 let n_see = ["Melo", "Melofee", "Melodelfe"];
 
+
+//Class pokemon, etat de chaque pokemon et affichage poke + status bar
 class Pokemon extends React.Component {
 
     constructor(props) {
@@ -59,14 +61,16 @@ class Pokemon extends React.Component {
         this.state = {
             evo : 0,
             filieres : [matmeca,elec,info,telecom,rsi,see],
-            f_id : props.filiere_id,
+            f_id : props.filiere_id, //id entre 0 et 5
             hp : max_hp,
             exp : 0,
-            names : [n_matmeca,n_elec,n_info,n_telecom,n_rsi,n_see]
+            names : [n_matmeca,n_elec,n_info,n_telecom,n_rsi,n_see],
+            animationImg : "", //css animation
+            keyframes : "" //keyframes animation
         }
     }
 
-    healthBarColor (hp) {
+    healthBarColor (hp) { //changement couleur barre hp
         if(hp/max_hp > 0.5) {
             return "#2afc00"
         }
@@ -82,8 +86,8 @@ class Pokemon extends React.Component {
     render() {
         return (
             <div class="pokemon-container">
-                <div class="pokemon-img-container">
-                    <img src={this.state.filieres[this.state.f_id][this.state.evo]} alt="d" class="pokemon-img"></img>
+                <div class="pokemon-img-container" id={`img-${this.state.f_id}`}>
+                    <img src={this.state.filieres[this.state.f_id][this.state.evo]} alt="d" class="pokemon-img" style={{animation : this.state.animationImg}}></img>
                 </div>
                 <div class="bar-container">
                     <div class="element-cont">
@@ -103,6 +107,9 @@ class Pokemon extends React.Component {
                         </div>
                     </div>
                 </div>
+                <style>
+                    {this.state.keyframes}
+                </style>
             </div>
         );
     }

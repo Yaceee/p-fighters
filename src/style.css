@@ -4,6 +4,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    background-image: url('./img/wallpaper.jpg');
 }
 
 .pokemon-container
