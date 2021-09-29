@@ -2,7 +2,7 @@ import React from "react";
 
 import "../style.css";
 import {Pokemon} from "./pokemon.js"
-import {max_hp, max_xp} from "./constants.js"
+import {max_hp, max_xp, filiere_key} from "./constants.js"
 
 class App extends React.Component {
 
@@ -41,15 +41,18 @@ class App extends React.Component {
     key_press(event) {
         if(event.key !== "x")
         {
-            if (this.state.key_cache === "")
+            if(filiere_key.includes(event.key))
             {
-                this.setState({key_cache : event.key});
-            }
-            else {
-                if(event.key !== this.state.key_cache)
+                if (this.state.key_cache === "")
                 {
-                    this.attack(this.state.key_cache, event.key);
-                    this.setState({key_cache : ""})
+                    this.setState({key_cache : event.key});
+                }
+                else {
+                    if(event.key !== this.state.key_cache)
+                    {
+                        this.attack(this.state.key_cache, event.key);
+                        this.setState({key_cache : ""})
+                    }
                 }
             }
         }
@@ -61,13 +64,15 @@ class App extends React.Component {
     }
 
     attack(p1,p2){
-        const filiere_key = ["m", "e", "i", "t", "r", "s"];
         const i1 = filiere_key.indexOf(p1);
         const i2 = filiere_key.indexOf(p2)
 
-        this.exp_up(i1, 10);
-        this.hp_down(i2, 1);
-        this.attackAnimate(i1, i2);
+        if(this.state.pokemons[i1].state.ko === false && this.state.pokemons[i2].state.ko === false)
+        {
+            this.exp_up(i1, 10);
+            this.hp_down(i2, 10);
+            this.attackAnimate(i1, i2);
+        }
     }
 
     attackAnimate(i1, i2) { 
@@ -115,6 +120,11 @@ class App extends React.Component {
             pokemons[i].state.hp = 0;
         }
 
+        if(pokemons[i].state.hp === 0)
+        {
+            pokemons[i].state.ko = true;
+        }
+
         this.setState({pokemons : pokemons});
     }
 
@@ -133,6 +143,11 @@ class App extends React.Component {
         if(pokemons[i].state.exp >= max_xp && pokemons[i].state.evo !== 2) {
             pokemons[i].state.exp = pokemons[i].state.exp - max_xp;
             pokemons[i].state.evo = pokemons[i].state.evo + 1;
+            pokemons[i].state.hp = pokemons[i].state.hp + 30;
+            if(pokemons[i].state.hp > max_hp)
+            {
+                pokemons[i].state.hp = max_hp;
+            }
         }
         else if (pokemons[i].state.exp >= max_xp && pokemons[i].state.evo === 2) {
             pokemons[i].state.exp = max_xp;

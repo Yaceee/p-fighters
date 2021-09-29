@@ -2,7 +2,7 @@ import React from "react";
 
 import "../style.css";
 
-import { max_hp} from "./constants";
+import { max_hp, max_xp} from "./constants";
 
 import bulbizarre from "../img/pokemon/Bulbasaur.gif"
 import herbizarre from "../img/pokemon/Ivysaur.gif"
@@ -35,6 +35,8 @@ import electrik from "../img/type/electrik.png"
 import spectre from "../img/type/spectre.png"
 import fee from "../img/type/fee.png"
 
+import pokeball from "../img/pokeball.png"
+
 let matmeca = [salameche,reptincel,dracaufeu];
 let elec = [carapuce,carabaffe,tortank];
 let info = [bulbizarre,herbizarre,florizarre];
@@ -63,6 +65,7 @@ class Pokemon extends React.Component {
             filieres : [matmeca,elec,info,telecom,rsi,see],
             f_id : props.filiere_id, //id entre 0 et 5
             hp : max_hp,
+            ko : false,
             exp : 0,
             names : [n_matmeca,n_elec,n_info,n_telecom,n_rsi,n_see],
             animationImg : "", //css animation
@@ -83,11 +86,20 @@ class Pokemon extends React.Component {
         }
     }
 
+    spriteReturn(state) {
+        if(state.ko === false){
+            return state.filieres[state.f_id][state.evo]
+        }
+        else if (state.ko === true) {
+            return pokeball
+        }
+    }
+
     render() {
         return (
             <div class="pokemon-container">
                 <div class="pokemon-img-container" id={`img-${this.state.f_id}`}>
-                    <img src={this.state.filieres[this.state.f_id][this.state.evo]} alt="d" class="pokemon-img" style={{animation : this.state.animationImg}}></img>
+                    <img src={this.spriteReturn(this.state)} alt="d" class="pokemon-img" style={{animation : this.state.animationImg}}></img>
                 </div>
                 <div class="bar-container">
                     <div class="element-cont">
@@ -97,12 +109,12 @@ class Pokemon extends React.Component {
                         <h2 class="name">{this.state.names[this.state.f_id][this.state.evo]}</h2>
                         <div class="health-bar-container">
                             <div class="health-bar-empty">
-                                <div class="health-bar" style={{width : (this.state.hp*400/100), backgroundColor : (this.healthBarColor(this.state.hp))}}></div>
+                                <div class="health-bar" style={{width : (this.state.hp*400/max_hp), backgroundColor : (this.healthBarColor(this.state.hp))}}></div>
                             </div>
                         </div>
                         <div class="exp-bar-container">
                             <div class="exp-bar-empty">
-                                <div class="exp-bar" style={{width : this.state.exp*400/100}}></div>
+                                <div class="exp-bar" style={{width : this.state.exp*400/max_xp}}></div>
                             </div>
                         </div>
                     </div>
