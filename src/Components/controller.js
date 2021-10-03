@@ -1,8 +1,11 @@
 import React from "react";
+import party from "party-js";
 
 import "../style.css";
 import {Pokemon} from "./pokemon.js"
 import {max_hp, max_xp, filiere_key} from "./constants.js"
+import attaque from "../img/attaque.png"
+import { range } from "party-js/lib/systems/variation";
 
 class App extends React.Component {
 
@@ -39,7 +42,7 @@ class App extends React.Component {
     }
 
     key_press(event) {
-        if(event.key !== "x")
+        if(event.key !== "9")
         {
             if(filiere_key.includes(event.key))
             {
@@ -60,18 +63,18 @@ class App extends React.Component {
         {
             this.setState({key_cache : ""})
         }
-        
+        console.log(event.key);
     }
 
     attack(p1,p2){
         const i1 = filiere_key.indexOf(p1);
-        const i2 = filiere_key.indexOf(p2)
+        const i2 = filiere_key.indexOf(p2);
 
         if(this.state.pokemons[i1].state.ko === false && this.state.pokemons[i2].state.ko === false)
         {
-            this.exp_up(i1, 10);
-            this.hp_down(i2, 10);
+            this.hp_down(i2, 1);
             this.attackAnimate(i1, i2);
+            setTimeout(() => {this.exp_up(i1, 1)}, 700);
         }
     }
 
@@ -85,16 +88,16 @@ class App extends React.Component {
         let p1_x = document.getElementById('img-'+i1).offsetLeft;
         let p2_y = document.getElementById('img-'+i2).offsetTop;
         let p2_x = document.getElementById('img-'+i2).offsetLeft;
-        console.log(i1, i2);
 
         let keyframes =
         `@-webkit-keyframes attack-${i1} {
             0% {-webkit-transform:translate(0px, 0px); z-index : 1;} 
-            50% {-webkit-transform:translate(${p2_x - p1_x}px, ${p2_y - p1_y}px); z-index : 1;}
-            100% {-webkit-transform:translate(0px, 0px); z-index : 0;}
+            50% {-webkit-transform:translate(${p2_x - p1_x}px, ${p2_y - p1_y}px); z-index : 1;background-image : url(${attaque});}
+            55% {background-image : none;}
+            100% {-webkit-transform:translate(0px, 0px); z-index : 0;background-image : none;}
         }`;
 
-        pokemons[i1].state.animationImg = " 0.5s linear attack-" + i1
+        pokemons[i1].state.animationImg = " 0.7s linear attack-" + i1
         pokemons[i1].state.keyframes = keyframes;
         this.setState({pokemons : pokemons})
     }
@@ -131,7 +134,7 @@ class App extends React.Component {
     exp_up(i,n) {
         const pokemons = this.state.pokemons.slice();
 
-        if(!(pokemons[i].state.evo === 2 && pokemons[i].state.exp === max_xp )){
+        if(!(pokemons[i].state.evo === 2 && pokemons[i].state.exp === max_xp[i] )){
             pokemons[i].state.exp = pokemons[i].state.exp + n;
         }
 
@@ -140,18 +143,25 @@ class App extends React.Component {
     }
 
     exp_check(i, pokemons) {
-        if(pokemons[i].state.exp >= max_xp && pokemons[i].state.evo !== 2) {
-            pokemons[i].state.exp = pokemons[i].state.exp - max_xp;
+        if(pokemons[i].state.exp >= max_xp[i] && pokemons[i].state.evo !== 2) {
+            pokemons[i].state.exp = pokemons[i].state.exp - max_xp[i];
             pokemons[i].state.evo = pokemons[i].state.evo + 1;
             pokemons[i].state.hp = pokemons[i].state.hp + 30;
             if(pokemons[i].state.hp > max_hp)
             {
                 pokemons[i].state.hp = max_hp;
             }
+            party.sparkles(pokemons[i].img_ref.current, {
+                count : 40,
+                shapes : ["star", "circle"],
+                size : range(1,2)
+            });
+            return 1;
         }
-        else if (pokemons[i].state.exp >= max_xp && pokemons[i].state.evo === 2) {
-            pokemons[i].state.exp = max_xp;
+        else if (pokemons[i].state.exp >= max_xp[i] && pokemons[i].state.evo === 2) {
+            pokemons[i].state.exp = max_xp[i];
         }
+        return 0;
     }
 
     render() {

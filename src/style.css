@@ -36,6 +36,7 @@
     box-sizing: content-box;
     height: 100%;
     position: absolute;
+    background-size: contain;
 }
 
 .bar-container

@@ -60,6 +60,8 @@ class Pokemon extends React.Component {
     constructor(props) {
         super(props);
 
+        this.img_ref = React.createRef();
+
         this.state = {
             evo : 0,
             filieres : [matmeca,elec,info,telecom,rsi,see],
@@ -69,7 +71,8 @@ class Pokemon extends React.Component {
             exp : 0,
             names : [n_matmeca,n_elec,n_info,n_telecom,n_rsi,n_see],
             animationImg : "", //css animation
-            keyframes : "" //keyframes animation
+            keyframes : "", //keyframes animation
+            class_img : "pokemon-img"
         }
     }
 
@@ -99,7 +102,7 @@ class Pokemon extends React.Component {
         return (
             <div class="pokemon-container">
                 <div class="pokemon-img-container" id={`img-${this.state.f_id}`}>
-                    <img src={this.spriteReturn(this.state)} alt="d" class="pokemon-img" style={{animation : this.state.animationImg}}></img>
+                    <img src={this.spriteReturn(this.state)} ref={this.img_ref} alt="d" class={this.state.class_img} style={{animation : this.state.animationImg}}></img>
                 </div>
                 <div class="bar-container">
                     <div class="element-cont">
@@ -114,7 +117,7 @@ class Pokemon extends React.Component {
                         </div>
                         <div class="exp-bar-container">
                             <div class="exp-bar-empty">
-                                <div class="exp-bar" style={{width : this.state.exp*400/max_xp}}></div>
+                                <div class="exp-bar" style={{width : this.state.exp*400/max_xp[this.state.f_id]}}></div>
                             </div>
                         </div>
                     </div>
