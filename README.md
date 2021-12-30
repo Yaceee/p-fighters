@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# P-fighters
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+P-fighters est une application web faisant combattre des pokémons grace aux commandes entrée par l'utilisateur. Cette application a été développée dans le cadre d'une soirée organisée par le Bureau des Elèves de l'ENSEIRB-MATMECA, opposant les participants qui étaient organiser en plusieurs équipes, chacune controllant un Pokémon.
 
-## Available Scripts
+## Fonctionnement
 
-In the project directory, you can run:
+Les controles de l'application se font grâce aux touches 1 à 6, et la touche Echap. Le maitre du jeu appuie en premier sur la touche correspondant à l'attanquant, puis celle correspondant à l'attaqué. Le premier Pokémon attaque le second, gagnant 1 point d'expérience et faisant perdre 1 point de vie à la victime. Si il fait une fausse manipulation, l'utilisateur peut appuyer sur Echap pour remettre sa commande à zero. 
 
-### `npm start`
+Quand un Pokémon n'a plus de points de vie, il est KO et ne peut plus attaquer. Quand un Pokémon rempli sa barre d'expérience, il évolue et regagne des points de vie. Le dernier Pokémon en vie est déclaré vainqueur.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Configuration
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+La configuration de l'application se fait dans le fichier constants.js, et se fait par la modification de trois constantes :
 
-### `npm test`
+### `max_hp`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Défini le maximum de points de vie d'un Pokémon.
 
-### `npm run build`
+### `max_xp`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Tableau du maximum d'expérience pour évoluer par Pokémon, dans l'ordre d'apparition.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `filiere_key`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Tableau des touches correspondantes à chaque Pokémon.
